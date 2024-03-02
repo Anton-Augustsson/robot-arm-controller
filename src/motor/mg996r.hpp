@@ -8,6 +8,7 @@ class Mg996r: public ServoMotor {
   public:
     Mg996r(ServoMotorParameters motorParameters);
     void setMotorParameters(ServoMotorParameters motorParameters) override;
+    void setMotorPwmCalibration(uint8_t pwmMin, uint8_t pwmMax) override;
     ServoMotorParameters getMotorParameters() override;
     void setMotorAngle(uint8_t angle) override;
     uint8_t getMotorAngle() override;
@@ -15,8 +16,6 @@ class Mg996r: public ServoMotor {
   private:
     ServoMotorParameters param;
     uint8_t pwm;
-    uint8_t angleToPwm(uint8_t angle);
-    uint8_t pwmToAngle(uint8_t pwm);
 };
 
 #endif

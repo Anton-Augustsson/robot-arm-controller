@@ -1,8 +1,9 @@
-#include "mg996r.hpp" 
+#include "motor/mg996r.hpp" 
+#include "utils/types.hpp" 
 
 int main(void) {
   ServoMotorParameters motorParameters1 {
-    "mg996r", 1, 3, 12, 0, 90
+    "mg996r", 1, {3, 12}, {0, 90}
   };
 
   Mg996r motor1(motorParameters1);
