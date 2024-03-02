@@ -2,8 +2,6 @@
 #define ServoMotor_HPP
 
 #include <iostream>
-#include <cstdint>
-#include <cmath>
 #include <string>
 #include <vector>
 

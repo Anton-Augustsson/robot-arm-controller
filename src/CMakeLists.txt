@@ -3,6 +3,7 @@ project(sample C CXX ASM)
 
 add_executable(smotor main.cpp)
 add_subdirectory(motor)
+add_subdirectory(states)
 add_subdirectory(utils)
 
-target_link_libraries(smotor PUBLIC motor utils)
+target_link_libraries(smotor PUBLIC motor states utils)
