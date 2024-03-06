@@ -3,10 +3,14 @@
 #include "utils/types.hpp" 
 #include "states/states.hpp" 
 
+#include <fstream>
 #include <chrono>
 #include <thread>
 #include <array>
 #include <cassert>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 // TODO: interrupt service routine (isr)
 // TODO: use std::counting_semaphore in the isr
@@ -44,6 +48,12 @@ void testStateTable() {
 }
 
 int main(void) {
+  std::ifstream f("../example.json"); // FIXME: ../ since run from build
+  json data = json::parse(f);
+  json glossDiv = data["glossary"]["GlossDiv"];
+  std::string title = glossDiv["title"];
+  std::cout << title << std::endl;
+
   // FIXME: read from calibration file
   ServoMotorParameters motorParameters1 {"mg996r", 1, {3, 12}, {0, 90}};
   ServoMotorParameters motorParameters2 {"mg996r", 2, {3, 12}, {0, 90}};
