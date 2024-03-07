@@ -1,6 +1,7 @@
 #include "motor/mg996r.hpp" 
 #include "motor/servo_motor.hpp" 
 #include "utils/types.hpp" 
+#include "utils/config.hpp" 
 #include "states/states.hpp" 
 
 #include <fstream>
@@ -8,9 +9,7 @@
 #include <thread>
 #include <array>
 #include <cassert>
-#include <nlohmann/json.hpp>
 
-using json = nlohmann::json;
 
 // TODO: interrupt service routine (isr)
 // TODO: use std::counting_semaphore in the isr
@@ -48,24 +47,17 @@ void testStateTable() {
 }
 
 int main(void) {
-  std::ifstream f("../example.json"); // FIXME: ../ since run from build
-  json data = json::parse(f);
-  json glossDiv = data["glossary"]["GlossDiv"];
-  std::string title = glossDiv["title"];
-  std::cout << title << std::endl;
-
-  // FIXME: read from calibration file
-  ServoMotorParameters motorParameters1 {"mg996r", 1, {3, 12}, {0, 90}};
-  ServoMotorParameters motorParameters2 {"mg996r", 2, {3, 12}, {0, 90}};
-  ServoMotorParameters motorParameters3 {"mg996r", 3, {3, 12}, {0, 90}};
-  ServoMotorParameters motorParameters4 {"mg996r", 4, {3, 12}, {0, 90}};
+  MotorParameters motorParameters0 = config::readMotorParameters(0);
+  MotorParameters motorParameters1 = config::readMotorParameters(1);
+  MotorParameters motorParameters2 = config::readMotorParameters(2);
+  MotorParameters motorParameters3 = config::readMotorParameters(3);
 
   const size_t numMotors = 4;
   std::array<Mg996r*, numMotors> motors = {
+    new Mg996r(motorParameters0),
     new Mg996r(motorParameters1),
     new Mg996r(motorParameters2),
     new Mg996r(motorParameters3),
-    new Mg996r(motorParameters4),
   };
   
   testMg996r(motors[0]);

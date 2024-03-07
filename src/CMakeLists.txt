@@ -9,9 +9,3 @@ add_subdirectory(states)
 add_subdirectory(utils)
 
 target_link_libraries(smotor PUBLIC motor states utils)
-include(FetchContent)
-
-FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz)
-FetchContent_MakeAvailable(json)
-
-target_link_libraries(smotor PRIVATE nlohmann_json::nlohmann_json)

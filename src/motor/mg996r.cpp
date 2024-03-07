@@ -1,12 +1,12 @@
 #include "mg996r.hpp" 
 #include "../utils/conversion.hpp" 
 
-Mg996r::Mg996r(ServoMotorParameters motorParameters) {
+Mg996r::Mg996r(MotorParameters motorParameters) {
   setMotorParameters(motorParameters);
   pwm = param.pwmRange.min;
 }
 
-void Mg996r::setMotorParameters(ServoMotorParameters motorParameters) {
+void Mg996r::setMotorParameters(MotorParameters motorParameters) {
   param = motorParameters;
 }
 
@@ -14,7 +14,7 @@ void Mg996r::setMotorPwmCalibration(uint8_t pwmMin, uint8_t pwmMax) {
   param.pwmRange = {pwmMin, pwmMax};
 }
 
-ServoMotorParameters Mg996r::getMotorParameters() {
+MotorParameters Mg996r::getMotorParameters() {
   return param;
 }
 
