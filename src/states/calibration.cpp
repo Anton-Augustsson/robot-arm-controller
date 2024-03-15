@@ -1,5 +1,8 @@
 #include <iostream>
 
+// TODO: B1 increase angle
+// TODO: B2 decrease angle
+// TODO: B3 set calibration
 void do_state_calibration(void) {
   std::cout << "do_state_calibration" << std::endl;
 }
