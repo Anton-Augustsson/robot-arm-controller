@@ -4,10 +4,11 @@ add_library(
     "${CMAKE_CURRENT_SOURCE_DIR}/types.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/config.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/config.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/context.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/context.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/conversion.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/conversion.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/event_queue.hpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/event_queue.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/thread_safe_queue.hpp"
 )
 
 include(FetchContent)

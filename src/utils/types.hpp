@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <string>
+#include <chrono>
 
 struct AngleRange {
   uint8_t min;
@@ -29,10 +30,14 @@ typedef enum _event_t {
     no_evt = 4
 } event_t;
 
-
 typedef enum _state_type_t {
     event_driven_st = 0,
     periodic_st = 1
 } state_type_t;
+
+struct Record {
+  std::time_t time;
+  std::string msg;
+};
 
 #endif

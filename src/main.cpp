@@ -2,20 +2,16 @@
 #include "motor/servo_motor.hpp" 
 #include "utils/types.hpp" 
 #include "utils/config.hpp" 
-#include "utils/event_queue.hpp" 
+#include "utils/context.hpp" 
 #include "states/states.hpp" 
 
 #include <fstream>
-#include <chrono>
 #include <thread>
 #include <array>
 #include <cassert>
 
 
-// TODO: move queue to utils. Should maybe be called EventQueue
-
-
-EventQueue event_queue;
+Context context;
 
 void testMg996r(Mg996r* motor) {
   int angle = motor->getMotorAngle();
@@ -42,19 +38,19 @@ void runStateTable() {
     current_state.Enter();
 
     if(current_state.state_type == periodic_st) {
-      if(!event_queue.try_pop(evt)) {
+      if(!context.event_queue.try_pop(evt)) {
         evt = no_evt;
       }
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
         std::this_thread::sleep_for(std::chrono::milliseconds(current_state.delay_ms));
-        event_queue.try_pop(evt);
+        context.event_queue.try_pop(evt);
       }
     } else {
-      event_queue.wait_and_pop(evt);
+      context.event_queue.wait_and_pop(evt);
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
-        event_queue.wait_and_pop(evt);
+        context.event_queue.wait_and_pop(evt);
       }
     }
 
@@ -65,22 +61,22 @@ void runStateTable() {
 
 void testStateTable() {
   // TODO: verify which state you should be in
-                            // idl
-  event_queue.push(b4_evt); // cal
-  event_queue.push(b1_evt); // cal
-  event_queue.push(no_evt); // cal
-  event_queue.push(b2_evt); // cal
-  event_queue.push(b3_evt); // cal
-  event_queue.push(b4_evt); // man
-  event_queue.push(b4_evt); // mts
-  event_queue.push(b1_evt); // idle
-  event_queue.push(b1_evt); // idle
-  event_queue.push(b2_evt); // man
-  event_queue.push(b2_evt); // man
-  event_queue.push(b4_evt); // mts
-                            // mts
-                            // mts
-                            // mts
+                                    // idl
+  context.event_queue.push(b4_evt); // cal
+  context.event_queue.push(b1_evt); // cal
+  context.event_queue.push(no_evt); // cal
+  context.event_queue.push(b2_evt); // cal
+  context.event_queue.push(b3_evt); // cal
+  context.event_queue.push(b4_evt); // man
+  context.event_queue.push(b4_evt); // mts
+  context.event_queue.push(b1_evt); // idle
+  context.event_queue.push(b1_evt); // idle
+  context.event_queue.push(b2_evt); // man
+  context.event_queue.push(b2_evt); // man
+  context.event_queue.push(b4_evt); // mts
+                                    // mts
+                                    // mts
+                                    // mts
 }
 
 int main(void) {
