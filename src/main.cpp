@@ -4,31 +4,12 @@
 #include "utils/config.hpp" 
 #include "utils/context.hpp" 
 #include "states/states.hpp" 
+#include "tests/test_motors.hpp" 
+#include "tests/test_state_table.hpp" 
 
 #include <fstream>
 #include <thread>
 #include <array>
-#include <cassert>
-
-
-Context context;
-
-void testMg996r(Mg996r* motor) {
-  int angle = motor->getMotorAngle();
-  assert(angle == 0);
-
-  motor->setMotorAngle(0);
-  angle = motor->getMotorAngle();
-  assert(angle == 0);
-
-  motor->setMotorAngle(40);
-  angle = motor->getMotorAngle();
-  assert(angle == 40);
-
-  motor->setMotorAngle(90);
-  angle = motor->getMotorAngle();
-  assert(angle == 90);
-}
 
 void runStateTable() {
   event_t evt = no_evt;
@@ -59,26 +40,6 @@ void runStateTable() {
   }
 }
 
-void testStateTable() {
-  // TODO: verify which state you should be in
-                                    // idl
-  context.event_queue.push(b4_evt); // cal
-  context.event_queue.push(b1_evt); // cal
-  context.event_queue.push(no_evt); // cal
-  context.event_queue.push(b2_evt); // cal
-  context.event_queue.push(b3_evt); // cal
-  context.event_queue.push(b4_evt); // man
-  context.event_queue.push(b4_evt); // mts
-  context.event_queue.push(b1_evt); // idle
-  context.event_queue.push(b1_evt); // idle
-  context.event_queue.push(b2_evt); // man
-  context.event_queue.push(b2_evt); // man
-  context.event_queue.push(b4_evt); // mts
-                                    // mts
-                                    // mts
-                                    // mts
-}
-
 int main(void) {
   MotorParameters motorParameters0 = config::readMotorParameters(0);
   MotorParameters motorParameters1 = config::readMotorParameters(1);
@@ -92,7 +53,6 @@ int main(void) {
     new Mg996r(motorParameters2),
     new Mg996r(motorParameters3),
   };
-  
 
   std::thread t1(runStateTable);
 

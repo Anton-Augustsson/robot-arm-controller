@@ -15,5 +15,6 @@ struct Context {
   Context();
 };
 
+extern Context context;
 
 #endif
