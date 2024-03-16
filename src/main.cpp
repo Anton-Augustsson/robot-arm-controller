@@ -12,6 +12,7 @@
 #include <array>
 
 void runStateTable() {
+  ContextSingleton* context = ContextSingleton::GetInstance("FOO");
   event_t evt = no_evt;
   state_t current_state = state_idl;
 
@@ -19,19 +20,19 @@ void runStateTable() {
     current_state.Enter();
 
     if(current_state.state_type == periodic_st) {
-      if(!context.event_queue.try_pop(evt)) {
+      if(!context->event_queue->try_pop(evt)) {
         evt = no_evt;
       }
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
         std::this_thread::sleep_for(std::chrono::milliseconds(current_state.delay_ms));
-        context.event_queue.try_pop(evt);
+        context->event_queue->try_pop(evt);
       }
     } else {
-      context.event_queue.wait_and_pop(evt);
+      context->event_queue->wait_and_pop(evt);
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
-        context.event_queue.wait_and_pop(evt);
+        context->event_queue->wait_and_pop(evt);
       }
     }
 
