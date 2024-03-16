@@ -1,6 +1,8 @@
 #ifndef States_HPP
 #define States_HPP
 
+#include "../utils/types.hpp"
+
 typedef void (*state_func_t)(void);
 
 typedef struct _state_t {
@@ -38,11 +40,40 @@ const state_t state_man = {
     300
 };
 
+void do_state_move_to_start(void);
+void enter_state_move_to_start(void);
+void exit_state_move_to_start(void);
+
+const state_t state_mts = {
+    2,
+    enter_state_move_to_start,
+    do_state_move_to_start,
+    exit_state_move_to_start,
+    periodic_st,
+    300
+};
+
+void do_state_idle(void);
+void enter_state_idle(void);
+void exit_state_idle(void);
+
+const state_t state_idl = {
+    3,
+    enter_state_idle,
+    do_state_idle,
+    exit_state_idle,
+    event_driven_st,
+    300
+};
+
+
 // TODO: move to main? Buttons and interrupt should be there, right?
-const state_t state_table[2][5] = {
+const state_t state_table[4][5] = {
     /*  STATE  B1         B2         B3         B4         NO-EVT */
     {/* S0 */  state_cal, state_cal, state_cal, state_man, state_cal}, // Calibrate
-    {/* S1 */  state_man, state_man, state_man, state_cal, state_man}, // Manual
+    {/* S1 */  state_man, state_man, state_man, state_mts, state_man}, // Manual
+    {/* S2 */  state_idl, state_idl, state_idl, state_idl, state_mts}, // Move to start
+    {/* S2 */  state_idl, state_man, state_mts, state_cal, state_idl}, // Idle
 };
 
 #endif

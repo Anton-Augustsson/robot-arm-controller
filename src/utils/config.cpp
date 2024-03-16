@@ -38,5 +38,6 @@ MotorParameters config::readMotorParameters(int motorNum) {
 }
 
 void config::saveMotor(MotorParameters motorParameters) {
+  // TODO:
   return;
 }

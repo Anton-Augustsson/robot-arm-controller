@@ -6,6 +6,8 @@ add_library(
     "${CMAKE_CURRENT_SOURCE_DIR}/config.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/conversion.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/conversion.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/event_queue.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/event_queue.cpp"
 )
 
 include(FetchContent)

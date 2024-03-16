@@ -2,6 +2,7 @@
 #include "motor/servo_motor.hpp" 
 #include "utils/types.hpp" 
 #include "utils/config.hpp" 
+#include "utils/event_queue.hpp" 
 #include "states/states.hpp" 
 
 #include <fstream>
@@ -9,53 +10,12 @@
 #include <thread>
 #include <array>
 #include <cassert>
-#include <mutex>
-#include <queue>
-#include <condition_variable>
 
 
 // TODO: move queue to utils. Should maybe be called EventQueue
-// FIXME: risk for stack overflow if someone continuously push and no one pop. Should have fixed size
-template <typename T>
-class ThreadSafeQueue {
-public:
-    ThreadSafeQueue() {}
 
-    void push(const T& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        queue_.push(value);
-        condition_.notify_one(); // Notify waiting threads that new data is available
-    }
 
-    bool try_pop(T& value) {
-        std::lock_guard<std::mutex> lock(mutex_);
-        if (queue_.empty()) {
-            return false;
-        }
-        value = queue_.front();
-        queue_.pop();
-        return true;
-    }
-
-    void wait_and_pop(T& value) {
-        std::unique_lock<std::mutex> lock(mutex_);
-        condition_.wait(lock, [this] { return !queue_.empty(); });
-        value = queue_.front();
-        queue_.pop();
-    }
-
-    bool empty() const {
-        std::lock_guard<std::mutex> lock(mutex_);
-        return queue_.empty();
-    }
-
-private:
-    std::queue<T> queue_;
-    mutable std::mutex mutex_;
-    std::condition_variable condition_;
-};
-
-ThreadSafeQueue<event_t> event_queue;
+EventQueue event_queue;
 
 void testMg996r(Mg996r* motor) {
   int angle = motor->getMotorAngle();
@@ -76,22 +36,22 @@ void testMg996r(Mg996r* motor) {
 
 void runStateTable() {
   event_t evt = no_evt;
-  state_t current_state = state_cal;
-  state_t prev_state = state_cal;
+  state_t current_state = state_idl;
 
-  for(int i = 0; i < 10; i++) {
+  for(;;) {
     current_state.Enter();
-    event_queue.wait_and_pop(evt);
 
     if(current_state.state_type == periodic_st) {
-      // FIXME: (with wait_and_pop in beginning) if you only have one event that makes you change, you will not do Do() Since the while statement is not true
-      // (no wait_and_pop in beginning) you will still have the same event that made you switch, thus switching back and forth
+      if(!event_queue.try_pop(evt)) {
+        evt = no_evt;
+      }
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
         std::this_thread::sleep_for(std::chrono::milliseconds(current_state.delay_ms));
         event_queue.try_pop(evt);
       }
     } else {
+      event_queue.wait_and_pop(evt);
       while(current_state.id == state_table[current_state.id][evt].id) {
         current_state.Do();
         event_queue.wait_and_pop(evt);
@@ -99,26 +59,28 @@ void runStateTable() {
     }
 
     current_state.Exit();
-    prev_state = current_state;
     current_state = state_table[current_state.id][evt];
   }
 }
 
 void testStateTable() {
   // TODO: verify which state you should be in
-  event_queue.push(b1_evt); // cal
+                            // idl
+  event_queue.push(b4_evt); // cal
   event_queue.push(b1_evt); // cal
   event_queue.push(no_evt); // cal
   event_queue.push(b2_evt); // cal
   event_queue.push(b3_evt); // cal
   event_queue.push(b4_evt); // man
-  event_queue.push(b4_evt); // cal
-  event_queue.push(b1_evt); // cal
-  event_queue.push(b1_evt); // cal
-  event_queue.push(b2_evt); // cal
-  event_queue.push(b2_evt); // cal
-
-  event_queue.empty();
+  event_queue.push(b4_evt); // mts
+  event_queue.push(b1_evt); // idle
+  event_queue.push(b1_evt); // idle
+  event_queue.push(b2_evt); // man
+  event_queue.push(b2_evt); // man
+  event_queue.push(b4_evt); // mts
+                            // mts
+                            // mts
+                            // mts
 }
 
 int main(void) {
