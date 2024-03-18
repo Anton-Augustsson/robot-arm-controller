@@ -1,0 +1,64 @@
+{
+  "Motors": {
+    "Motor0": {
+        "ID": 1234,
+        "MotorType": "mg996r",
+        "PWM": {
+            "Min": 3,
+            "Max": 12
+        },
+        "AngleRange": {
+            "Min": 0,
+            "Max": 90
+        }
+    },
+    "Motor1": {
+        "ID": 1235,
+        "MotorType": "mg996r",
+        "PWM": {
+            "Min": 2,
+            "Max": 12
+        },
+        "AngleRange": {
+            "Min": 0,
+            "Max": 90
+        }
+    },
+    "Motor2": {
+        "ID": 1236,
+        "MotorType": "mg996r",
+        "PWM": {
+            "Min": 4,
+            "Max": 13
+        },
+        "AngleRange": {
+            "Min": 0,
+            "Max": 90
+        }
+    },
+    "Motor3": {
+        "ID": 1237,
+        "MotorType": "mg996r",
+        "PWM": {
+            "Min": 3,
+            "Max": 11
+        },
+        "AngleRange": {
+            "Min": 0,
+            "Max": 90
+        }
+    },
+    "Motor4": {
+        "ID": 1238,
+        "MotorType": "mg996r",
+        "PWM": {
+            "Min": 2,
+            "Max": 11
+        },
+        "AngleRange": {
+            "Min": 0,
+            "Max": 90
+        }
+    }
+}
+}

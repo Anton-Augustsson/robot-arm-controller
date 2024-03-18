@@ -12,10 +12,14 @@ set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
-add_executable(sample main.c)
+add_executable(sample main.cpp)
 
 pico_enable_stdio_usb(sample 1)
 pico_enable_stdio_uart(sample 1)
 pico_add_extra_outputs(sample)
 
-target_link_libraries(sample pico_stdlib)
+add_subdirectory(src/motor)
+add_subdirectory(src/utils)
+
+#target_link_libraries(sample pico_stdlib)
+target_link_libraries(sample PUBLIC pico_stdlib motor utils)

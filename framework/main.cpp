@@ -16,6 +16,8 @@ void runStateTable() {
   event_t evt = no_evt;
   state_t current_state = state_idl;
 
+  std::cout << context->value() << std::endl;
+
   for(;;) {
     current_state.Enter();
 

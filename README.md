@@ -8,6 +8,9 @@ Run the following command in the repos root directory
 docker run -d -it --name pico-sdk --mount type=bind,source=${PWD},target=/home/dev lukstep/raspberry-pi-pico-sdk:latest
 ```
 
+## Framework 
+Framework is a separate program to experiment the general program structure of a microcontroller.
+
 ## Requirement
 For src you need to install (nlohmann/json)[https://github.com/nlohmann/json/tree/develop?tab=readme-ov-file#integration], which you can do with [vcpkg](https://github.com/Microsoft/vcpkg/?tab=readme-ov-file#quick-start-unix).
 
