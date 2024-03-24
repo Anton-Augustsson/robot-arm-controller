@@ -8,13 +8,28 @@ Run the following command in the repos root directory
 docker run -d -it --name pico-sdk --mount type=bind,source=${PWD},target=/home/dev lukstep/raspberry-pi-pico-sdk:latest
 ```
 
+## PWM
+Controlling the motors on the robot arm is done my sending a pwm signal to the motors 
+on the robot arm.
+| PWM function | Header Pin | Broadcom pin name |
+| ------------ | ---------- | ----------------- |
+| PWM          | 4          | GP2               |
+
+There are two models of motors used for the robot arm.
+| Model              | PWM Period | Voltage           |
+| ------------------ | ---------- | ----------------- |
+| [SG90](http://www.ee.ic.ac.uk/pcheung/teaching/DE1_EE/stores/sg90_datasheet.pdf)                 | 50Hz       | 5V                |
+| [MG996R](https://cdn.shopify.com/s/files/1/1509/1638/files/Servo_MG996R_Datenblatt.pdf?5470426105647302493) | 50Hz       | 5V                |
+
+
+
 ## Framework 
 Framework is a separate program to experiment the general program structure of a microcontroller.
 SPI will be used to communicate with a bare metal controller and a node.
 
 ![Alt text](documentation/images/spi_diagram2.png "Multiple SPI")
 
-### SPI Pins
+### SPI 
 - SCLK: Serial clock
 - MOSI: Master Out Slave In; SDI: Serial data in
 - MISO: Master In Slave Out; SDO: Serial data out

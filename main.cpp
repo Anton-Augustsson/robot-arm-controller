@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+#include "hardware/pwm.h"
 #include "hardware/spi.h"
 #include "hardware/gpio.h"
 #include "pico/stdlib.h"
@@ -10,7 +11,9 @@
 #include "src/utils/types.hpp" 
 
 #define LED_PIN 25
-#define BUF_LEN 32 //128
+#define BUF_LEN 32
+#define MAX_DUTY_CYCLE 65535 // 2^16-1
+#define PWM_FREQUENCY 2500 // 50 Hz (2500 us period)
 
 void printbuf(uint8_t buf[], size_t len) {
   int i;
@@ -39,8 +42,26 @@ int main () {
   gpio_init(LED_PIN);
   gpio_set_dir(LED_PIN, GPIO_OUT);
 
+  // Setup PWM pin
+  gpio_set_function(2, GPIO_FUNC_PWM);
+
+  // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
+  uint8_t slice_num = pwm_gpio_to_slice_num(2);
+  pwm_set_clkdiv(slice_num, PWM_FREQUENCY); 
+  pwm_set_wrap(slice_num, MAX_DUTY_CYCLE);
+  // Set the PWM running
+  pwm_set_enabled(slice_num, true);
+  // Set PWM duty cycle
+  uint16_t duty_cycle = MAX_DUTY_CYCLE*0.004;
+  pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
+
+  // Just for debuging reasons
   sleep_ms (2 * 1000);
   printf ("SPI Peripheral Example\n");
+
+  // Set PWM duty cycle
+  duty_cycle = MAX_DUTY_CYCLE*0.01;
+  pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
 
   // Enable SPI 0 at 1 MHz and connect to GPIOs
   spi_init (spi_default, 1 * 1000000);
