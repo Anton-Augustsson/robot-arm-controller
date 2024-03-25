@@ -1,11 +1,19 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
+
+#ifdef SIMULATION_ENABLED
+#include "src/simulation/mock.hpp"
+#define LOOP int i = 0; i < 10; i++
+#else
 #include "hardware/pwm.h"
 #include "hardware/spi.h"
 #include "hardware/gpio.h"
 #include "pico/stdlib.h"
 #include "pico/binary_info.h"
+#define LOOP ;;
+#endif
+
 #include "src/motor/servo_motor.hpp" 
 #include "src/motor/mg996r.hpp" 
 #include "src/utils/types.hpp" 
@@ -56,20 +64,20 @@ int main () {
   pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
 
   // Just for debuging reasons
-  sleep_ms (2 * 1000);
-  printf ("SPI Peripheral Example\n");
+  sleep_ms(2 * 1000);
+  printf("SPI Peripheral Example\n");
 
   // Set PWM duty cycle
   duty_cycle = MAX_DUTY_CYCLE*0.01;
   pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
 
   // Enable SPI 0 at 1 MHz and connect to GPIOs
-  spi_init (spi_default, 1 * 1000000);
-  spi_set_slave (spi_default, true);
-  gpio_set_function (PICO_DEFAULT_SPI_RX_PIN, GPIO_FUNC_SPI);
-  gpio_set_function (PICO_DEFAULT_SPI_SCK_PIN, GPIO_FUNC_SPI);
-  gpio_set_function (PICO_DEFAULT_SPI_TX_PIN, GPIO_FUNC_SPI);
-  gpio_set_function (PICO_DEFAULT_SPI_CSN_PIN, GPIO_FUNC_SPI);
+  spi_init(spi_default, 1 * 1000000);
+  spi_set_slave(spi_default, true);
+  gpio_set_function(PICO_DEFAULT_SPI_RX_PIN, GPIO_FUNC_SPI);
+  gpio_set_function(PICO_DEFAULT_SPI_SCK_PIN, GPIO_FUNC_SPI);
+  gpio_set_function(PICO_DEFAULT_SPI_TX_PIN, GPIO_FUNC_SPI);
+  gpio_set_function(PICO_DEFAULT_SPI_CSN_PIN, GPIO_FUNC_SPI);
   // Make the SPI pins available to picotool
   //bi_decl(bi_4pins_with_func(PICO_DEFAULT_SPI_RX_PIN, PICO_DEFAULT_SPI_TX_PIN, PICO_DEFAULT_SPI_SCK_PIN, PICO_DEFAULT_SPI_CSN_PIN, GPIO_FUNC_SPI));
 
@@ -81,7 +89,7 @@ int main () {
     in_buf[i] = 0;
   }
 
-  while (1) {
+  for(LOOP) {
     gpio_put(LED_PIN, 0);
 
     if (spi_is_readable (spi_default)) {

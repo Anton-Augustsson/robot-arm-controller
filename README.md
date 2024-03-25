@@ -8,6 +8,27 @@ Run the following command in the repos root directory
 docker run -d -it --name pico-sdk --mount type=bind,source=${PWD},target=/home/dev lukstep/raspberry-pi-pico-sdk:latest
 ```
 
+## Compile 
+You have two options: either you run with the pico library or you use the simulation flag.
+So that you may run without hardware. You are thus able to change the environment through
+software.
+
+To run with hardware run:
+```bash
+rm -r build && mkdir build && cd build
+cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 ..  # or cmake ..
+make -j4  # or make
+```
+Then you have to move the .uf2 file to the pico when it is in boot mode so it can be mounted.
+
+To run with simulation run:
+```bash
+rm -r build && mkdir build && cd build
+cmake -DSIMULATION=ON ..
+make
+./sample
+```
+
 ## PWM
 Controlling the motors on the robot arm is done my sending a pwm signal to the motors 
 on the robot arm.
