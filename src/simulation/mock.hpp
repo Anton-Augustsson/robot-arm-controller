@@ -33,6 +33,9 @@ void gpio_set_dir(unsigned int gpio, bool out);
 void gpio_set_function(unsigned int gpio, enum gpio_function fn); // Or unsigned int
 void gpio_put(unsigned int gpio, unsigned int value);
 
+/*
+    For the mock files slice_num will be the same as gpio
+*/
 void pwm_set_clkdiv(unsigned int slice_num, float divider);
 void pwm_set_wrap(unsigned int slice_num, int wrap);
 unsigned int pwm_gpio_to_slice_num(unsigned int gpio);

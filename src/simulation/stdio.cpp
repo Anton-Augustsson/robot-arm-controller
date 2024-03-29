@@ -1,6 +1,7 @@
-#include "mock.hpp"
 #include <chrono>
 #include <thread>
+#include "mock.hpp"
+#include "sim_context_singleton.hpp"
 
 void stdio_init_all() {
   return;
