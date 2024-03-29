@@ -1,7 +1,12 @@
+#include <iostream>
 #include "mock.hpp"
+#include "../simulation/sim_context_singleton.hpp" 
 
 void spi_init(unsigned int gpio, unsigned int frequency) {
-  return;
+  // TODO: check that it is the correct gpio
+  SimContextSingleton* simContext = SimContextSingleton::GetInstance("testMg99r");
+  simContext->setSpiStatus(Status_spi::INITIALIZED);
+  std::cout << "SPI GPIO " << gpio << " " << statusSpiToString(simContext->getSpiStatus()) << std::endl;
 }
 
 void spi_set_slave(unsigned int gpio, bool enable) {

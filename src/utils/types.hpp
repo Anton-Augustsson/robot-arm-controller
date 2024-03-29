@@ -15,9 +15,21 @@ struct PwmRange {
   uint8_t max;
 };
 
+typedef enum _led_id_t {
+    led1 = 0
+} led_id_t;
+
+typedef enum _motor_id_t {
+    m1 = 0,
+    m2 = 1,
+    m3 = 2,
+    m4 = 3,
+    m5 = 4
+} motor_id_t;
+
 struct MotorParameters {
     std::string model;
-    uint8_t id;
+    motor_id_t id;
     PwmRange pwmRange;
     AngleRange angleRange;
 };

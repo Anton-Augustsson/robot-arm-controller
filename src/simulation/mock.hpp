@@ -1,5 +1,5 @@
-#ifndef Mocks_HPP
-#define Mock_HPP
+#ifndef MOCKS_HPP
+#define MOCKS_HPP
 
 #include <stdint.h>
 #include <string>

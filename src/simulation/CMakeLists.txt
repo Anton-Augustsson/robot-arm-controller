@@ -1,5 +1,7 @@
 add_library(
     simulation
+    "${CMAKE_CURRENT_SOURCE_DIR}/sim_context_singleton.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sim_context_singleton.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/mock.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/bi.cpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/gpio.cpp"
