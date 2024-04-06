@@ -40,8 +40,6 @@ int main () {
   bi_decl(bi_program_description("Sample binary"));
   bi_decl(bi_1pin_with_name(LED_PIN, "on-board PIN"));
 
-  //MotorParameters motorParameters0 = {"mg996r", 0, PwmRange {3, 12}, AngleRange {0, 90}};
-  //Mg996r motor0 = Mg996r(motorParameters0);
 
   // Enable UART so we can print
   stdio_init_all();
@@ -50,27 +48,58 @@ int main () {
   gpio_init(LED_PIN);
   gpio_set_dir(LED_PIN, GPIO_OUT);
 
-  // Setup PWM pin
-  gpio_set_function(2, GPIO_FUNC_PWM);
+  MotorParameters motorParameters0 = MotorParameters{"mg996r", (motor_id_t)0, 2, PwmRange {3, 12}, AngleRange {0, 90}};
+  //MotorParameters motorParameters1 = MotorParameters{"mg996r", (motor_id_t)1, 3, PwmRange {3, 12}, AngleRange {0, 90}};
+  MotorParameters motorParameters2 = MotorParameters{"mg996r", (motor_id_t)2, 4, PwmRange {3, 12}, AngleRange {0, 90}};
+  MotorParameters motorParameters3 = MotorParameters{"sg90", (motor_id_t)3, 6, PwmRange {3, 12}, AngleRange {0, 90}};
+  //MotorParameters motorParameters4 = MotorParameters{"sg90", (motor_id_t)4, 7, PwmRange {3, 12}, AngleRange {0, 90}};
+  MotorParameters motorParameters5 = MotorParameters{"sg90", (motor_id_t)5, 8, PwmRange {3, 12}, AngleRange {0, 90}};
 
-  // Find out which PWM slice is connected to GPIO 0 (it's slice 0)
-  uint8_t slice_num = pwm_gpio_to_slice_num(2);
-  pwm_set_clkdiv(slice_num, PWM_FREQUENCY); 
-  pwm_set_wrap(slice_num, MAX_DUTY_CYCLE);
-  // Set the PWM running
-  pwm_set_enabled(slice_num, true);
+  Mg996r motor0 = Mg996r(motorParameters0);
+  //Mg996r motor1 = Mg996r(motorParameters1); // fails
+  Mg996r motor2 = Mg996r(motorParameters2);
+  Mg996r motor3 = Mg996r(motorParameters3); // Should be sg90
+  //Mg996r motor4 = Mg996r(motorParameters4); // fails // Should be sg90
+  Mg996r motor5 = Mg996r(motorParameters5); // Should be sg90
+
   // Set PWM duty cycle
-  uint16_t duty_cycle = MAX_DUTY_CYCLE*0.004;
-  pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
+  uint16_t duty_cycle = MAX_DUTY_CYCLE*0.004;//0.004;
+  motor0.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //motor1.setMotorDutyCycle(duty_cycle);
+  //sleep_ms(1000);
+  motor2.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //pwm_set_chan_level(slice_num4, PWM_CHAN_A, duty_cycle);
+  motor3.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //motor4.setMotorDutyCycle(duty_cycle);
+  //sleep_ms(1000);
+  motor5.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
 
-  // Just for debuging reasons
-  sleep_ms(2 * 1000);
+  // Set PWM duty cycle
+  duty_cycle = MAX_DUTY_CYCLE*0.01;//0.008;//0.01;
+  motor0.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //motor1.setMotorDutyCycle(duty_cycle);
+  //sleep_ms(1000);
+  motor2.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //pwm_set_chan_level(slice_num4, PWM_CHAN_A, duty_cycle);
+  motor3.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+  //motor4.setMotorDutyCycle(duty_cycle);
+  //sleep_ms(1000);
+  motor5.setMotorDutyCycle(duty_cycle);
+  sleep_ms(1000);
+
+ 
+
+  /* 
+    SPI 
+  */
   printf("SPI Peripheral Example\n");
-
-  // Set PWM duty cycle
-  duty_cycle = MAX_DUTY_CYCLE*0.01;
-  pwm_set_chan_level(slice_num, PWM_CHAN_A, duty_cycle);
-
   // Enable SPI 0 at 1 MHz and connect to GPIOs
   spi_init(spi_default, 1 * 1000000);
   spi_set_slave(spi_default, true);

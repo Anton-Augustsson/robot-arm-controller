@@ -4,8 +4,21 @@
 The docker container that the code is compiled in was created by [lukestep](https://hub.docker.com/r/lukstep/raspberry-pi-pico-sdk), for more instructions view his repo.
 
 Run the following command in the repos root directory
-```
+```bash
 docker run -d -it --name pico-sdk --mount type=bind,source=${PWD},target=/home/dev lukstep/raspberry-pi-pico-sdk:latest
+```
+
+I have forked the lukestep's repository and added some more tools. To use that instead
+clone the repo and the build it. 
+```bash
+git clone https://github.com/Anton-Augustsson/raspberry-pi-pico-docker-sdk.git
+cd raspberry-pi-pico-docker-sdk
+docker build . --tag pico-sdk
+```
+
+Cd into `robot-arm-controller` and run.
+```bash
+docker run -d -it --name pico-sdk-aa --mount type=bind,source=${PWD},target=/home/dev pico-sdk:latest
 ```
 
 ## Compile 
@@ -32,9 +45,11 @@ make
 ## PWM
 Controlling the motors on the robot arm is done my sending a pwm signal to the motors 
 on the robot arm.
-| PWM function | Header Pin | Broadcom pin name |
-| ------------ | ---------- | ----------------- |
-| PWM          | 4          | GP2               |
+| Motor   | PWM function | Header Pin | Broadcom pin name |
+| ------- | ------------ | ---------- | ----------------- |
+| MG996R  | PWM          | 4          | GP2               |
+| MG996R  | PWM          | 5          | GP3               |
+| MG996R  | PWM          | 6          | GP4               |
 
 There are two models of motors used for the robot arm.
 | Model              | PWM Period | Voltage           |

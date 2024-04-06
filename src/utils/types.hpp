@@ -20,17 +20,19 @@ typedef enum _led_id_t {
 } led_id_t;
 
 typedef enum _motor_id_t {
-    m1 = 0,
-    m2 = 1,
-    m3 = 2,
-    m4 = 3,
-    m5 = 4
+    m0 = 0,
+    m1 = 1,
+    m2 = 2,
+    m3 = 3,
+    m4 = 4,
+    m5 = 5
 } motor_id_t;
 
 struct MotorParameters {
     std::string model;
     motor_id_t id;
-    PwmRange pwmRange;
+    uint8_t gpio;
+    PwmRange pwmRange; // TODO: change to uint16_t
     AngleRange angleRange;
 };
 

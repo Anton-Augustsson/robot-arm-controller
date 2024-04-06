@@ -6,3 +6,8 @@ add_library(
 )
 
 target_include_directories(motor PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+if(SIMULATION) 
+else()
+    target_link_libraries(motor pico_stdlib hardware_pwm)
+endif()

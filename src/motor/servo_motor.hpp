@@ -13,6 +13,7 @@ class ServoMotor {
     virtual void setMotorPwmCalibration(uint8_t pwmMin, uint8_t pwmMax) = 0;
     virtual MotorParameters getMotorParameters() = 0;
     virtual void setMotorAngle(uint8_t angle) = 0;
+    virtual void setMotorDutyCycle(uint16_t dutyCycle) = 0;
     virtual uint8_t getMotorAngle() = 0;
 
     virtual ~ServoMotor() {}

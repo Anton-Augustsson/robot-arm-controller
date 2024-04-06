@@ -52,7 +52,7 @@ std::string statusGpioToString(Status_gpio status) {
 }
 
 SimContextSingleton* SimContextSingleton::singleton_= nullptr;;
-motor *SimContextSingleton::pwmMotors[5] = {nullptr};
+motor *SimContextSingleton::pwmMotors[6] = {nullptr};
 
 SimContextSingleton *SimContextSingleton::GetInstance() {
   if(singleton_==nullptr) {
@@ -75,18 +75,21 @@ void SimContextSingleton::initMotors() {
     pwmMotors[2] = new motor();
     pwmMotors[3] = new motor();
     pwmMotors[4] = new motor();
+    pwmMotors[5] = new motor();
 
-    pwmMotors[0]->id = motor_id_t::m1;
-    pwmMotors[1]->id = motor_id_t::m2;
-    pwmMotors[2]->id = motor_id_t::m3;
-    pwmMotors[3]->id = motor_id_t::m4;
-    pwmMotors[4]->id = motor_id_t::m5;
+    pwmMotors[0]->id = motor_id_t::m0;
+    pwmMotors[1]->id = motor_id_t::m1;
+    pwmMotors[2]->id = motor_id_t::m2;
+    pwmMotors[3]->id = motor_id_t::m3;
+    pwmMotors[4]->id = motor_id_t::m4;
+    pwmMotors[5]->id = motor_id_t::m5;
 
     pwmMotors[0]->gpio_or_slice_num = 2;
     pwmMotors[1]->gpio_or_slice_num = 3;
     pwmMotors[2]->gpio_or_slice_num = 4;
-    pwmMotors[3]->gpio_or_slice_num = 5;
-    pwmMotors[4]->gpio_or_slice_num = 6;
+    pwmMotors[3]->gpio_or_slice_num = 6;
+    pwmMotors[4]->gpio_or_slice_num = 7;
+    pwmMotors[5]->gpio_or_slice_num = 8;
 
     for (motor *m : pwmMotors) {
       m->status = Status_pwm::UNINITIALIZED;

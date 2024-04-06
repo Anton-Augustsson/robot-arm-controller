@@ -35,7 +35,7 @@ class SimContextSingleton {
 
     led gpioLed;
     Status_spi spiPeripheral;
-    static motor *pwmMotors[5];
+    static motor *pwmMotors[6];
 
     void initMotors();
     void destroyMotors();
