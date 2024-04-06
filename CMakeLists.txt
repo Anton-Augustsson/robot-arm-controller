@@ -14,10 +14,9 @@ if(SIMULATION)
   add_executable(sample main.cpp)
 
   add_subdirectory(src/motor)
-  add_subdirectory(src/utils)
   add_subdirectory(src/simulation)
 
-  target_link_libraries(sample PUBLIC motor utils simulation)
+  target_link_libraries(sample PUBLIC motor simulation)
 
 else()
   include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
@@ -38,7 +37,6 @@ else()
   pico_add_extra_outputs(sample)
 
   add_subdirectory(src/motor)
-  add_subdirectory(src/utils)
 
-  target_link_libraries(sample PUBLIC pico_stdlib motor utils hardware_spi hardware_pwm)
+  target_link_libraries(sample PUBLIC pico_stdlib motor hardware_spi hardware_pwm)
 endif()

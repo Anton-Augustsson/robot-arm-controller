@@ -14,9 +14,7 @@
 #define LOOP ;;
 #endif
 
-#include "src/motor/servo_motor.hpp" 
-#include "src/motor/mg996r.hpp" 
-#include "src/utils/types.hpp" 
+#include "src/motor/motor.hpp" 
 
 #define LED_PIN 25
 #define BUF_LEN 32
@@ -55,12 +53,12 @@ int main () {
   //MotorParameters motorParameters4 = MotorParameters{"sg90", (motor_id_t)4, 7, PwmRange {3, 12}, AngleRange {0, 90}};
   MotorParameters motorParameters5 = MotorParameters{"sg90", (motor_id_t)5, 8, PwmRange {3, 12}, AngleRange {0, 90}};
 
-  Mg996r motor0 = Mg996r(motorParameters0);
-  //Mg996r motor1 = Mg996r(motorParameters1); // fails
-  Mg996r motor2 = Mg996r(motorParameters2);
-  Mg996r motor3 = Mg996r(motorParameters3); // Should be sg90
-  //Mg996r motor4 = Mg996r(motorParameters4); // fails // Should be sg90
-  Mg996r motor5 = Mg996r(motorParameters5); // Should be sg90
+  Motor motor0 = Motor(motorParameters0);
+  //Mg996r motor1 = Mg996r(motorParameters1); // the motor is dysfunctional
+  Motor motor2 = Motor(motorParameters2);
+  Motor motor3 = Motor(motorParameters3);
+  //Mg996r motor4 = Mg996r(motorParameters4); // the motor is dysfunctional
+  Motor motor5 = Motor(motorParameters5);
 
   // Set PWM duty cycle
   uint16_t duty_cycle = MAX_DUTY_CYCLE*0.004;//0.004;

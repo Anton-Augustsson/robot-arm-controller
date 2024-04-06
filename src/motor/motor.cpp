@@ -1,8 +1,9 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "mg996r.hpp" 
-#include "../utils/conversion.hpp" 
+#include "motor.hpp" 
+#include "motor_type.hpp"
+#include "conversion.hpp" 
 
 #ifdef SIMULATION_ENABLED
 #include "../simulation/mock.hpp"
@@ -16,7 +17,7 @@
 #define MAX_DUTY_CYCLE 65535 // 2^16-1
 #define PWM_FREQUENCY 2500 // 50 Hz (2500 us period)
 
-Mg996r::Mg996r(MotorParameters motorParameters) {
+Motor::Motor(MotorParameters motorParameters) {
   setMotorParameters(motorParameters);
 
   gpio_set_function(param.gpio, GPIO_FUNC_PWM); // m1 works
@@ -29,26 +30,26 @@ Mg996r::Mg996r(MotorParameters motorParameters) {
   pwm = param.pwmRange.min; // TODO: duty cycle should be the in between min and max
 }
 
-void Mg996r::setMotorParameters(MotorParameters motorParameters) {
+void Motor::setMotorParameters(MotorParameters motorParameters) {
   param = motorParameters;
 }
 
-void Mg996r::setMotorPwmCalibration(uint8_t pwmMin, uint8_t pwmMax) {
+void Motor::setMotorPwmCalibration(uint8_t pwmMin, uint8_t pwmMax) {
   param.pwmRange = {pwmMin, pwmMax};
 }
 
-MotorParameters Mg996r::getMotorParameters() {
+MotorParameters Motor::getMotorParameters() {
   return param;
 }
 
-void Mg996r::setMotorAngle(uint8_t angle) {
+void Motor::setMotorAngle(uint8_t angle) {
   pwm = conversion::angleToPwm(angle, param.angleRange, param.pwmRange);
 }
 
-void Mg996r::setMotorDutyCycle(uint16_t dutyCycle) {
+void Motor::setMotorDutyCycle(uint16_t dutyCycle) {
   pwm_set_chan_level(slice_num, PWM_CHAN_A, dutyCycle);
 }
 
-uint8_t Mg996r::getMotorAngle() {
+uint8_t Motor::getMotorAngle() {
   return conversion::pwmToAngle(pwm, param.angleRange, param.pwmRange);
 }

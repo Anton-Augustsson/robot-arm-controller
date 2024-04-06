@@ -1,4 +1,6 @@
 #include "sim_context_singleton.hpp"
+#include <stdint.h>
+#include <string.h>
 
 std::string statusSpiToString(Status_spi status) {
   switch (status) {
@@ -101,7 +103,7 @@ void SimContextSingleton::setSpiStatus(Status_spi status) {
   spiPeripheral = status;
 }
 
-void SimContextSingleton::setGpioStatus(led_id_t id, Status_gpio status) {
+void SimContextSingleton::setGpioStatus(uint8_t id, Status_gpio status) {
   // TODO: gind gpio id
   gpioLed.status = status;
 }
@@ -128,7 +130,7 @@ Status_spi SimContextSingleton::getSpiStatus() {
   return spiPeripheral;
 }
 
-Status_gpio SimContextSingleton::getGpioStatus(led_id_t id) {
+Status_gpio SimContextSingleton::getGpioStatus(uint8_t id) {
   // TODO: gind gpio id
   return gpioLed.status;
 }

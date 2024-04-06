@@ -1,7 +1,7 @@
 #ifndef conversion_HPP
 #define conversion_HPP
 
-#include "types.hpp"
+#include "motor_type.hpp"
 
 namespace conversion {
   uint8_t angleToPwm(uint8_t angle, AngleRange angleRange, PwmRange pwmRange);

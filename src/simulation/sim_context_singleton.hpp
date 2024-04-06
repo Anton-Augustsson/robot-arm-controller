@@ -1,9 +1,10 @@
 #ifndef SIM_CONTEXT_SINGELTON_HPP
 #define SIM_CONTEXT_SINGELTON_HPP
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
-#include "../utils/types.hpp"
+#include "../motor/motor_type.hpp"
 
 enum class Status_spi { UNINITIALIZED, INITIALIZED, READY, ERROR };
 enum class Status_pwm { UNINITIALIZED, CLKDIV_SET, WRAP_SET, ENABLED, CHAN_LEVEL_SET, ERROR };
@@ -20,7 +21,7 @@ struct motor {
 };
 
 struct led {
-  led_id_t id;
+  uint8_t id;
   Status_gpio status;
 };
 
@@ -47,12 +48,12 @@ class SimContextSingleton {
     static SimContextSingleton *GetInstance();
 
     void setSpiStatus(Status_spi status);
-    void setGpioStatus(led_id_t id, Status_gpio status);
+    void setGpioStatus(uint8_t id, Status_gpio status);
     void setMotorStatus(motor_id_t id, Status_pwm status);
     void setMotorStatus(unsigned int gpio_or_slice_num, Status_pwm status);
 
     Status_spi getSpiStatus();
-    Status_gpio getGpioStatus(led_id_t id);
+    Status_gpio getGpioStatus(uint8_t id);
     Status_pwm getMotorStatus(motor_id_t id);
     Status_pwm getMotorStatus(unsigned int gpio_or_slice_num);
 };
