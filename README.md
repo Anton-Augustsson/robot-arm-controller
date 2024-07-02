@@ -21,6 +21,11 @@ Cd into `robot-arm-controller` and run.
 docker run -d -it --name pico-sdk-aa --mount type=bind,source=${PWD},target=/home/dev pico-sdk:latest
 ```
 
+## VS Code
+Follow lukesep's [instructions](https://github.com/lukstep/raspberry-pi-pico-docker-sdk?tab=readme-ov-file).
+
+
+
 ## Compile 
 You have two options: either you run with the pico library or you use the simulation flag.
 So that you may run without hardware. You are thus able to change the environment through
