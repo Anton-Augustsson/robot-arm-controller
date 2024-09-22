@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.helloword";
+option java_outer_classname = "HelloWorldProto";
+option objc_class_prefix = "HLW";
+
+package robotarm_server;
+
+service Robotarm {
+  rpc E1 (E1Request) returns (E1Reply) {}
+}
+
+message E1Request {
+  optional string s = 1;
+  optional string p = 2;
+}
+
+message E1Reply {
+  string msg = 1;
+}
